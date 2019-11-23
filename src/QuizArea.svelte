@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { htmlDecode, shuffle } from './utils.js';
+  import Snackbar from './Snackbar.svelte';
 
   let questionNo = 0;
   let question = 'loading...';
@@ -63,7 +64,7 @@
 
     background-color: white;
     border-radius: 6px;
-    box-shadow: 1px 1px 10px floralwhite;
+    box-shadow: 0 0 5px white;
 
     text-align: left;
   }
@@ -124,14 +125,21 @@
     margin-top: 16px;
     padding: 8px;
 
-    border: 1px solid #fe3300;
+    border: 1px solid #4e5656;
     border-radius: 8px;
   }
 
   #choice:hover {
     cursor: pointer;
-    background: #fe3300;
+    background: green;
+    border: 1px solid green;
     color: white;
+  }
+
+  #snackbar {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
   }
 
   @media screen and (max-width: 960px) {
@@ -164,5 +172,9 @@
       Previous
     </button>
     {/if}
+  </div>
+
+  <div id="snackbar" >
+    <Snackbar message=false />
   </div>
 </div>
