@@ -10,18 +10,24 @@
 
   let data;
 
+  function htmlDecode(input) {
+    var e = document.createElement('textarea');
+    e.innerHTML = input;
+    return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue;
+  }
+
   function fetchData() {
     fetch('https://opentdb.com/api.php?amount=10')
       .then(resp => resp.json())
       .then(res => {
         data = res.results;
-        question = data[questionNo].question;
+        question = htmlDecode(data[questionNo].question);
         answerChoices = [
           ...data[questionNo].incorrect_answers,
           data[questionNo].correct_answer
-        ];
-        answer = data[questionNo].correct_answer;
-        category = data[questionNo].category;
+        ].map(a => htmlDecode(a));
+        answer = htmlDecode(data[questionNo].correct_answer);
+        category = htmlDecode(data[questionNo].category);
         difficulty = data[questionNo].difficulty;
       })
       .catch(e => console.error(e));
@@ -33,19 +39,19 @@
     if (change === 'f') questionNo += 1;
     else questionNo -= 1;
 
-    question = data[questionNo].question;
+    question = htmlDecode(data[questionNo].question);
     answerChoices = [
       ...data[questionNo].incorrect_answers,
       data[questionNo].correct_answer
-    ];
-    answer = data[questionNo].correct_answer;
-    category = data[questionNo].category;
+    ].map(a => htmlDecode(a));
+    answer = htmlDecode(data[questionNo].correct_answer);
+    category = htmlDecode(data[questionNo].category);
     difficulty = data[questionNo].difficulty;
   }
 </script>
 
 <style>
-  div {
+  #main {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -87,22 +93,41 @@
     font-size: 24px;
     font-weight: bolder;
   }
+
+  #difficulty {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    height: 25px;
+    width: 80px;
+    padding: 5px;
+
+    background: rgb(97, 225, 230);
+    color: white;
+    text-align: center;
+    border-radius: 16px;
+  }
+
+  #category {
+    font-size: 12px;
+    font-weight: normal;
+    color: #444444;
+  }
 </style>
 
-<div>
-  <span id="heading">Question {questionNo + 1}</span>
+<div id="main">
+  <span id="heading"
+    >Question {questionNo + 1}
+    <i id="category">(Category - {category})</i></span
+  >
   <span>{question}</span>
   <span>{answerChoices}</span>
-  <span>{answer}</span>
-  <span>{category}</span>
-  <span>{difficulty}</span>
+  <div id="difficulty">{difficulty}</div>
+
+  {#if !(questionNo > 10)}
   <button value="Next" on:click="{() => handleClick('f')}">Next</button>
-  {#if questionNo > 0}
-  <button
-    style="float: left; margin-right: 0; margin-left: 15px;"
-    value="Back"
-    on:click="{() => handleClick('b')}"
-  >
+  {/if} {#if questionNo > 0}
+  <button value="Back" on:click="{() => handleClick('b')}">
     Previous
   </button>
   {/if}

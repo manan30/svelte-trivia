@@ -1,13 +1,14 @@
 {
-  "name": "svelte-app",
+  "name": "svelte-trivia",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/manan30/test-your-knowledge.git"
+    "url": "https://github.com/manan30/svelte-trivia.git"
   },
   "keywords": [
     "Svelte",
-    "WebDev"
+    "WebDev",
+    "JavaScript"
   ],
   "devDependencies": {
     "eslint": "6.7.0",
