@@ -1,20 +1,17 @@
 <script>
   import { onMount } from 'svelte';
+  import { htmlDecode, shuffle } from './utils.js';
 
   let questionNo = 0;
-  let question;
+  let question = 'loading...';
   let answerChoices;
   let answer;
-  let category;
-  let difficulty;
+  let category = 'loading...';
+  let difficulty = 'loading...';
 
   let data;
 
-  function htmlDecode(input) {
-    var e = document.createElement('textarea');
-    e.innerHTML = input;
-    return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue;
-  }
+  $: state = 'Answering';
 
   function fetchData() {
     fetch('https://opentdb.com/api.php?amount=10')
@@ -22,10 +19,12 @@
       .then(res => {
         data = res.results;
         question = htmlDecode(data[questionNo].question);
-        answerChoices = [
-          ...data[questionNo].incorrect_answers,
-          data[questionNo].correct_answer
-        ].map(a => htmlDecode(a));
+        answerChoices = shuffle(
+          [
+            ...data[questionNo].incorrect_answers,
+            data[questionNo].correct_answer
+          ].map(a => htmlDecode(a))
+        );
         answer = htmlDecode(data[questionNo].correct_answer);
         category = htmlDecode(data[questionNo].category);
         difficulty = data[questionNo].difficulty;
@@ -40,10 +39,12 @@
     else questionNo -= 1;
 
     question = htmlDecode(data[questionNo].question);
-    answerChoices = [
-      ...data[questionNo].incorrect_answers,
-      data[questionNo].correct_answer
-    ].map(a => htmlDecode(a));
+    answerChoices = shuffle(
+      [
+        ...data[questionNo].incorrect_answers,
+        data[questionNo].correct_answer
+      ].map(a => htmlDecode(a))
+    );
     answer = htmlDecode(data[questionNo].correct_answer);
     category = htmlDecode(data[questionNo].category);
     difficulty = data[questionNo].difficulty;
@@ -111,7 +112,35 @@
   #category {
     font-size: 12px;
     font-weight: normal;
-    color: #444444;
+  }
+
+  #button-bar {
+    position: absolute;
+    bottom: 16px;
+    right: 0;
+  }
+
+  #choice {
+    margin-top: 16px;
+    padding: 8px;
+
+    border: 1px solid #fe3300;
+    border-radius: 8px;
+  }
+
+  #choice:hover {
+    cursor: pointer;
+    background: #fe3300;
+    color: white;
+  }
+
+  @media screen and (max-width: 960px) {
+    #main {
+      width: calc(100vw - 15%);
+    }
+    #difficulty {
+      top: -16px;
+    }
   }
 </style>
 
@@ -121,14 +150,19 @@
     <i id="category">(Category - {category})</i></span
   >
   <span>{question}</span>
-  <span>{answerChoices}</span>
   <div id="difficulty">{difficulty}</div>
 
-  {#if !(questionNo > 10)}
-  <button value="Next" on:click="{() => handleClick('f')}">Next</button>
-  {/if} {#if questionNo > 0}
-  <button value="Back" on:click="{() => handleClick('b')}">
-    Previous
-  </button>
-  {/if}
+  {#if answerChoices} {#each answerChoices as choice}
+  <div id="choice"><i>{choice}</i></div>
+  {/each} {/if}
+
+  <div id="button-bar">
+    {#if !(questionNo > 10)}
+    <button value="Next" on:click="{() => handleClick('f')}">Next</button>
+    {/if} {#if questionNo > 0}
+    <button value="Back" on:click="{() => handleClick('b')}">
+      Previous
+    </button>
+    {/if}
+  </div>
 </div>
