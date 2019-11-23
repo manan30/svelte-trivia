@@ -3,6 +3,8 @@
   import { htmlDecode, shuffle } from './utils.js';
   import Snackbar from './Snackbar.svelte';
 
+  let data;
+
   let questionNo = 0;
   let question = 'loading...';
   let answerChoices;
@@ -10,9 +12,9 @@
   let category = 'loading...';
   let difficulty = 'loading...';
 
-  let data;
-
-  $: state = 'Answering';
+  let correct = false;
+  let snackbarVisibility = false;
+  $: score = 0;
 
   function fetchData() {
     fetch('https://opentdb.com/api.php?amount=10')
@@ -36,6 +38,8 @@
   onMount(fetchData);
 
   function handleClick(change) {
+    snackbarVisibility = false;
+
     if (change === 'f') questionNo += 1;
     else questionNo -= 1;
 
@@ -49,6 +53,14 @@
     answer = htmlDecode(data[questionNo].correct_answer);
     category = htmlDecode(data[questionNo].category);
     difficulty = data[questionNo].difficulty;
+  }
+
+  function handleAnswerChoice(e) {
+    if (e.target.innerText === answer && !correct) {
+      correct = true;
+      score += 1;
+    } else if (correct) correct = false;
+    snackbarVisibility = true;
   }
 </script>
 
@@ -161,7 +173,9 @@
   <div id="difficulty">{difficulty}</div>
 
   {#if answerChoices} {#each answerChoices as choice}
-  <div id="choice"><i>{choice}</i></div>
+  <div id="choice" on:click="{(e) => handleAnswerChoice(e)}">
+    <i>{choice}</i>
+  </div>
   {/each} {/if}
 
   <div id="button-bar">
@@ -174,7 +188,9 @@
     {/if}
   </div>
 
-  <div id="snackbar" >
-    <Snackbar message=false />
+  {#if snackbarVisibility}
+  <div id="snackbar">
+    <Snackbar message="{correct}"></Snackbar>
   </div>
+  {/if}
 </div>

@@ -1,5 +1,6 @@
 <script>
-  export let background;
+  import { fly, fade } from 'svelte/transition';
+
   export let message;
 </script>
 
