@@ -1,8 +1,3 @@
-<script>
-  import QuizArea from './QuizArea.svelte';
-  export let name;
-</script>
-
 <style>
   main {
     text-align: center;
@@ -11,18 +6,16 @@
     margin: 0 auto;
   }
 
-  h1 {
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
   }
 </style>
+
+<script>
+  import QuizArea from './QuizArea.svelte';
+</script>
 
 <main>
   <QuizArea />

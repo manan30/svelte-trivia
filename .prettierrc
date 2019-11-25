@@ -3,5 +3,6 @@
   "useTabs": false,
   "printWidth": 80,
   "semi": true,
-  "singleQuote": true
+  "singleQuote": true,
+  "svelteSortOrder": "styles-scripts-markup"
 }

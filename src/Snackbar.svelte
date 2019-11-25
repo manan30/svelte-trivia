@@ -1,9 +1,3 @@
-<script>
-  import { fly, fade } from 'svelte/transition';
-
-  export let message;
-</script>
-
 <style>
   div {
     height: 48px;
@@ -23,12 +17,17 @@
   }
 </style>
 
+<script>
+  // import { fly, fade } from 'svelte/transition';
+  export let message = '';
+</script>
+
 {#if message === true}
-<div style="background-color: green; box-shadow: 0 0 5px green;">
-  <span>Correct Answer</span>
-</div>
+  <div style="background-color: green; box-shadow: 0 0 5px green;">
+    <span>Correct Answer</span>
+  </div>
 {:else}
-<div style="background-color: red; box-shadow: 0 0 5px red;">
-  <span>Incorrect Answer</span>
-</div>
+  <div style="background-color: red; box-shadow: 0 0 5px red;">
+    <span>Incorrect Answer</span>
+  </div>
 {/if}
