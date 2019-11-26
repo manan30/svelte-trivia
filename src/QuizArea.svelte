@@ -106,14 +106,10 @@
   let data = [];
 
   let questionNo = 0;
-  let question = 'loading...';
-  let answerChoices = [];
-  let answer = '';
-  let category = 'loading...';
-  let difficulty = 'loading...';
-
   let representation = [];
   let snackbarVisibility = false;
+
+  $: score = 0;
 
   function fetchData() {
     fetch('https://opentdb.com/api.php?amount=10')
@@ -133,12 +129,11 @@
             category: htmlDecode(curr.category),
             difficulty: curr.difficulty,
             answerChoice: '',
-            correct: false
+            correct: false,
+            answered: false
           });
           return acc;
         }, []);
-
-        console.log(representation);
       })
       .catch(e => console.error(e));
   }
@@ -146,21 +141,32 @@
   onMount(fetchData);
 
   function handleClick(change) {
-    snackbarVisibility = false;
+    snackbarVisibility = !snackbarVisibility;
 
     if (change === 'f') questionNo += 1;
     else questionNo -= 1;
   }
 
-  function handleAnswerChoice(e) {
-    if (e.target.innerText === answer && !correct) {
-      correct = true;
-    } else if (correct) correct = false;
-    snackbarVisibility = true;
+  function handleAnswerChoice(e = {}) {
+    if (!representation[questionNo].answered) {
+      if (e.target.innerText === representation[questionNo].answer) {
+        representation[questionNo].correct = true;
+        representation[questionNo].answerChoice =
+          representation[questionNo].answer;
+        score += 1;
+      } else {
+        representation[questionNo].answerChoice = e.target.innerText;
+      }
+      representation[questionNo].answered = true;
+      snackbarVisibility = !snackbarVisibility;
+    }
+    console.log(representation[questionNo], score);
   }
 </script>
 
 <div id="main">
+
+  <span>{score}/10</span>
 
   {#if representation.length > 0}
     <span id="heading">
@@ -192,6 +198,13 @@
       <Snackbar message={correct} />
     </div>
   {/if} -->
+  {:else}
+    <span
+      style="position: absolute; left: 50%; top: 50%; transform:
+      translateX(-50%) translateY(-50%); font-weight: bolder; font-size: 36px;
+      margin: 0">
+      Fetching questions...
+    </span>
   {/if}
 
 </div>
