@@ -15,8 +15,14 @@
 
 <script>
   import QuizArea from './QuizArea.svelte';
+
+  let playerScore = 0;
 </script>
 
 <main>
-  <QuizArea />
+  <p style="color: white">Score: {playerScore} / 10</p>
+  <QuizArea
+    on:score={e => {
+      playerScore = e.detail.score;
+    }} />
 </main>

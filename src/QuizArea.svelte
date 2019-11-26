@@ -99,10 +99,11 @@
 </style>
 
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
   import { htmlDecode, shuffle } from './utils.js';
   import Snackbar from './Snackbar.svelte';
 
+  const dispatch = createEventDispatcher();
   let data = [];
 
   let questionNo = 0;
@@ -154,19 +155,17 @@
         representation[questionNo].answerChoice =
           representation[questionNo].answer;
         score += 1;
+        dispatch('score', { score: score });
       } else {
         representation[questionNo].answerChoice = e.target.innerText;
       }
       representation[questionNo].answered = true;
       snackbarVisibility = !snackbarVisibility;
     }
-    console.log(representation[questionNo], score);
   }
 </script>
 
 <div id="main">
-
-  <span>{score}/10</span>
 
   {#if representation.length > 0}
     <span id="heading">
