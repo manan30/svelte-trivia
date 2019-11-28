@@ -6,6 +6,16 @@
     margin: 0 auto;
   }
 
+  footer {
+    position: absolute;
+    bottom: 24px;
+    right: 30px;
+    padding: 16px;
+
+    color: white;
+    text-align: center;
+  }
+
   @media (min-width: 640px) {
     main {
       max-width: none;
@@ -38,3 +48,9 @@
     }} />
 
 </main>
+
+<footer>
+  &#x24B8; Manan Joshi. Made with
+  <span style="font-size: 24px; color: red">&#x2764;</span>
+  using Svelte
+</footer>

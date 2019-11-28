@@ -287,6 +287,7 @@
       <p style="font-size: 24px">
         {@html finalMessage}
       </p>
+      <p style="font-size: 24px">Refresh the page to play again</p>
     </div>
   {:else}
     <span
