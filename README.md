@@ -11,8 +11,6 @@ I was hearing about Svelte a lot and after listening to this talk I wanted to gi
 
 ## Checkout the live [demo](https://manan30.github.io/svelte-trivia/)
 
----
-
 ## Questions or Issues
 
 Please open up any issues or discussions in the issues tab.
