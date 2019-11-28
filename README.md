@@ -9,6 +9,10 @@ I was hearing about Svelte a lot and after listening to this talk I wanted to gi
 - Run the development version using `npm run dev` and navigate to [localhost:5000](http://localhost:5000)
 - Build the app using `npm run build`
 
+## Checkout the live [demo](https://manan30.github.io/svelte-trivia/)
+
+---
+
 ## Questions or Issues
 
 Please open up any issues or discussions in the issues tab.
