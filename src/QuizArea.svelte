@@ -85,7 +85,7 @@
   #snackbar {
     position: absolute;
     left: 16px;
-    bottom: 16px;
+    bottom: 24px;
   }
 
   @media screen and (max-width: 960px) {
@@ -100,16 +100,20 @@
 
 <script>
   import { onMount, createEventDispatcher } from 'svelte';
-  import { htmlDecode, shuffle } from './utils.js';
   import Snackbar from './Snackbar.svelte';
+
+  import { fadeIn, fadeOut } from './transitions.js';
+  import { htmlDecode, shuffle } from './utils.js';
 
   const dispatch = createEventDispatcher();
   let data = [];
 
   let questionNo = 0;
-  let representation = [];
+  let buttonBarVisibility = true;
   let snackbarVisibility = false;
+  let snackbarMessage = false;
 
+  $: representation = [];
   $: score = 0;
 
   function fetchData() {
@@ -142,7 +146,7 @@
   onMount(fetchData);
 
   function handleClick(change) {
-    snackbarVisibility = !snackbarVisibility;
+    if (snackbarVisibility) snackbarVisibility = !snackbarVisibility;
 
     if (change === 'f') questionNo += 1;
     else questionNo -= 1;
@@ -150,22 +154,33 @@
 
   function handleAnswerChoice(e = {}) {
     if (!representation[questionNo].answered) {
+      const representationCopy = { ...representation[questionNo] };
+      representationCopy.answered = true;
       if (e.target.innerText === representation[questionNo].answer) {
-        representation[questionNo].correct = true;
-        representation[questionNo].answerChoice =
-          representation[questionNo].answer;
+        representationCopy.correct = true;
+        representationCopy.answerChoice = representation[questionNo].answer;
+        representation[questionNo] = representationCopy;
         score += 1;
+        snackbarMessage = true;
         dispatch('score', { score: score });
       } else {
-        representation[questionNo].answerChoice = e.target.innerText;
+        representationCopy.answerChoice = e.target.innerText;
+        representation[questionNo] = representationCopy;
+        snackbarMessage = false;
       }
-      representation[questionNo].answered = true;
-      snackbarVisibility = !snackbarVisibility;
+
+      if (questionNo === 9) buttonBarVisibility = false;
+
+      if (!snackbarVisibility) snackbarVisibility = true;
+
+      // setTimeout(() => {
+      //   if (snackbarVisibility) snackbarVisibility = false;
+      // }, 2000);
     }
   }
 </script>
 
-<div id="main">
+<div id="main" in:fadeIn out:fadeOut>
 
   {#if representation.length > 0}
     <span id="heading">
@@ -177,26 +192,58 @@
 
     {#if representation[questionNo].answerChoices}
       {#each representation[questionNo].answerChoices as choice}
-        <div id="choice" on:click={e => handleAnswerChoice(e)}>
-          <i>{choice}</i>
-        </div>
+        {#if representation[questionNo].answered && representation[questionNo].correct}
+          {#if choice === representation[questionNo].answerChoice}
+            <div
+              id="choice"
+              style="background: green; color: white; border-color: white">
+              <i>{choice}</i>
+            </div>
+          {:else}
+            <div id="choice">
+              <i>{choice}</i>
+            </div>
+          {/if}
+        {:else if representation[questionNo].answered && !representation[questionNo].correct}
+          {#if choice === representation[questionNo].answer}
+            <div
+              id="choice"
+              style="background: green; color: white; border-color: white">
+              <i>{choice}</i>
+            </div>
+          {:else}
+            <div
+              id="choice"
+              style="background: red; color: white; border-color: white">
+              <i>{choice}</i>
+            </div>
+          {/if}
+        {:else}
+          <div id="choice" on:click={e => handleAnswerChoice(e)}>
+            <i>{choice}</i>
+          </div>
+        {/if}
       {/each}
     {/if}
 
-    <div id="button-bar">
-      {#if questionNo < 9}
-        <button value="Next" on:click={() => handleClick('f')}>Next</button>
-      {/if}
-      {#if questionNo > 0}
-        <button value="Back" on:click={() => handleClick('b')}>Previous</button>
-      {/if}
-    </div>
+    {#if buttonBarVisibility}
+      <div id="button-bar">
+        {#if questionNo < 9}
+          <button value="Next" on:click={() => handleClick('f')}>Next</button>
+        {/if}
+        {#if questionNo > 0}
+          <button value="Back" on:click={() => handleClick('b')}>
+            Previous
+          </button>
+        {/if}
+      </div>
+    {/if}
 
-    <!-- {#if snackbarVisibility}
-    <div id="snackbar">
-      <Snackbar message={correct} />
-    </div>
-  {/if} -->
+    {#if snackbarVisibility}
+      <div id="snackbar" in:fadeIn out:fadeOut>
+        <Snackbar message={snackbarMessage} />
+      </div>
+    {/if}
   {:else}
     <span
       style="position: absolute; left: 50%; top: 50%; transform:

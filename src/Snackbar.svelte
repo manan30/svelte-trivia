@@ -18,11 +18,10 @@
 </style>
 
 <script>
-  // import { fly, fade } from 'svelte/transition';
   export let message = '';
 </script>
 
-{#if message === true}
+{#if message}
   <div style="background-color: green; box-shadow: 0 0 5px green;">
     <span>Correct Answer</span>
   </div>

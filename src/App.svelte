@@ -17,12 +17,18 @@
   import QuizArea from './QuizArea.svelte';
 
   let playerScore = 0;
+  let visible = false;
 </script>
 
 <main>
-  <p style="color: white">Score: {playerScore} / 10</p>
+
+  <p style="color: white; font-size: 24px">
+    <i>{playerScore} / 10</i>
+  </p>
+
   <QuizArea
     on:score={e => {
       playerScore = e.detail.score;
     }} />
+
 </main>
