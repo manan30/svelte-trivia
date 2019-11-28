@@ -27,14 +27,14 @@
     float: right;
 
     color: white;
-    background-color: #ff3e00;
+    background-color: #16302b;
     border: none;
     border-radius: 10px;
     cursor: pointer;
   }
 
   button:hover {
-    box-shadow: 0 0 5px #ff3e00;
+    box-shadow: 0 0 5px #16302b;
   }
 
   #heading {
@@ -50,7 +50,7 @@
     width: 80px;
     padding: 5px;
 
-    background: rgb(97, 225, 230);
+    background: #1b3b6f;
     color: white;
     text-align: center;
     border-radius: 16px;
@@ -77,8 +77,8 @@
 
   #choice:hover {
     cursor: pointer;
-    background: green;
-    border: 1px solid green;
+    background: #7ddf64;
+    border: 1px solid #7ddf64;
     color: white;
   }
 
@@ -91,6 +91,7 @@
   @media screen and (max-width: 960px) {
     #main {
       width: calc(100vw - 15%);
+      height: calc(100vh - 30%);
     }
     #difficulty {
       top: -16px;
@@ -196,7 +197,7 @@
           {#if choice === representation[questionNo].answerChoice}
             <div
               id="choice"
-              style="background: green; color: white; border-color: white">
+              style="background: #7DDF64; color: white; border-color: white">
               <i>{choice}</i>
             </div>
           {:else}
@@ -208,13 +209,13 @@
           {#if choice === representation[questionNo].answer}
             <div
               id="choice"
-              style="background: green; color: white; border-color: white">
+              style="background: #7DDF64; color: white; border-color: white">
               <i>{choice}</i>
             </div>
           {:else}
             <div
               id="choice"
-              style="background: red; color: white; border-color: white">
+              style="background: #DE3C4B; color: white; border-color: white">
               <i>{choice}</i>
             </div>
           {/if}

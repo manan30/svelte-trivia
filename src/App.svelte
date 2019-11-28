@@ -23,6 +23,7 @@
 <main>
 
   <p style="color: white; font-size: 24px">
+    Score:
     <i>{playerScore} / 10</i>
   </p>
 
