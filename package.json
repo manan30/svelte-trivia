@@ -10,6 +10,7 @@
     "WebDev",
     "JavaScript"
   ],
+  "homepage": "https://manan30.github.io/svelte-trivia/",
   "devDependencies": {
     "eslint": "6.7.0",
     "eslint-config-airbnb-base": "14.0.0",
@@ -27,11 +28,14 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "gh-pages": "2.1.1",
     "sirv-cli": "^0.4.4"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public"
+    "start": "sirv public",
+    "predeploy": "rollup -c",
+    "deploy": "gh-pages -d public"
   }
 }
