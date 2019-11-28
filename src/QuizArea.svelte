@@ -88,6 +88,19 @@
     bottom: 24px;
   }
 
+  #results {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    text-align: center;
+  }
+
+  #score {
+    font-size: 48px;
+  }
+
   @media screen and (max-width: 960px) {
     #main {
       width: calc(100vw - 15%);
@@ -95,6 +108,9 @@
     }
     #difficulty {
       top: -16px;
+    }
+    #score {
+      font-size: 36px;
     }
   }
 </style>
@@ -113,9 +129,12 @@
   let buttonBarVisibility = true;
   let snackbarVisibility = false;
   let snackbarMessage = false;
+  // let answeredQuestions = 0;
+  let resultsScreen = false;
 
   $: representation = [];
   $: score = 0;
+  $: finalMessage = '';
 
   function fetchData() {
     fetch('https://opentdb.com/api.php?amount=10')
@@ -155,6 +174,7 @@
 
   function handleAnswerChoice(e = {}) {
     if (!representation[questionNo].answered) {
+      // answeredQuestions += 1;
       const representationCopy = { ...representation[questionNo] };
       representationCopy.answered = true;
       if (e.target.innerText === representation[questionNo].answer) {
@@ -170,20 +190,29 @@
         snackbarMessage = false;
       }
 
-      if (questionNo === 9) buttonBarVisibility = false;
+      if (questionNo === 9) {
+        buttonBarVisibility = false;
+        resultsScreen = true;
+
+        dispatch('resultsScreen', { showScore: false });
+
+        if (score < 5) {
+          finalMessage = 'Are you on drugs? 😵';
+        } else if (score === 5) {
+          finalMessage = "Don't give up try harder. 🤓";
+        } else {
+          finalMessage = "You're on fire!!! 🔥";
+        }
+      }
 
       if (!snackbarVisibility) snackbarVisibility = true;
-
-      // setTimeout(() => {
-      //   if (snackbarVisibility) snackbarVisibility = false;
-      // }, 2000);
     }
   }
 </script>
 
 <div id="main" in:fadeIn out:fadeOut>
 
-  {#if representation.length > 0}
+  {#if representation.length > 0 && !resultsScreen}
     <span id="heading">
       Question {questionNo + 1}
       <i id="category">(Category - {representation[questionNo].category})</i>
@@ -245,6 +274,20 @@
         <Snackbar message={snackbarMessage} />
       </div>
     {/if}
+    <!-- Uncomment this if you want the user to go back and answer pending questions
+      {:else if answeredQuestions === 10}
+      <p>All answered</p>
+    -->
+  {:else if resultsScreen}
+    <div id="results">
+      <p id="score">
+        Final Score:
+        <i>{score} / 10</i>
+      </p>
+      <p style="font-size: 24px">
+        {@html finalMessage}
+      </p>
+    </div>
   {:else}
     <span
       style="position: absolute; left: 50%; top: 50%; transform:

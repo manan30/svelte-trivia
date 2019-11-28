@@ -17,19 +17,24 @@
   import QuizArea from './QuizArea.svelte';
 
   let playerScore = 0;
-  let visible = false;
+  let visible = true;
 </script>
 
 <main>
 
-  <p style="color: white; font-size: 24px">
-    Score:
-    <i>{playerScore} / 10</i>
-  </p>
+  {#if visible}
+    <p style="color: white; font-size: 24px">
+      Score:
+      <i>{playerScore} / 10</i>
+    </p>
+  {/if}
 
   <QuizArea
     on:score={e => {
       playerScore = e.detail.score;
+    }}
+    on:resultsScreen={e => {
+      visible = e.detail.showScore;
     }} />
 
 </main>
