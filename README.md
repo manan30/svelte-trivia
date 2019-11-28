@@ -1,122 +1,14 @@
-_Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)_
+# Svelte Trivia
 
----
-
-# svelte app
-
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
-
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
-
-_Note that you will need to have [Node.js](https://nodejs.org) installed._
+I was hearing about Svelte a lot and after listening to this talk I wanted to give it a try too. So I did and it turns out that Svelte is super amazing. I am used to programming with React a lot and some clear differences made me fall in love with Svelte. Svelte Trivia is a rudimentary quiz app made completely using Svelte.
 
 ## Get started
 
-Install the dependencies...
+- Clone the repo using `git clone git@github.com:manan30/svelte-trivia.git`
+- Install dependencies using `npm install`
+- Run the development version using `npm run dev` and navigate to [localhost:5000](http://localhost:5000)
+- Build the app using `npm run build`
 
-```bash
-cd svelte-app
-npm install
-```
+## Questions or Issues
 
-...then start [Rollup](https://rollupjs.org):
-
-```bash
-npm run dev
-```
-
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-<<<<<<< HEAD
-
-# <<<<<<< HEAD
-
-> > > > > > > Initial commit
-
-=======
-
-> > > > > > > fixup! Initial commit
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-# <<<<<<< HEAD
-
-> > > > > > > Initial commit
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for _any_ path. You can make it so by editing the `"start"` command in package.json:
-=======
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for _any_ path. You can make it so by editing the `"start"` command in package.json:
-
-> > > > > > > # Initial commit
-> > > > > > >
-> > > > > > > If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for _any_ path. You can make it so by editing the `"start"` command in package.json:
-> > > > > > > fixup! Initial commit
-
-```js
-"start": "sirv public --single"
-```
-
-<<<<<<< HEAD
-
-# <<<<<<< HEAD
-
-> > > > > > > Initial commit
-
-=======
-
-> > > > > > > fixup! Initial commit
-
-## Deploying to the web
-
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-now deploy --name my-project
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+Please open up any issues or discussions in the issues tab.
