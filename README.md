@@ -1,6 +1,6 @@
 # Svelte Trivia
 
-I was hearing about Svelte a lot and after listening to this talk I wanted to give it a try too. So I did and it turns out that Svelte is super amazing. I am used to programming with React a lot and some clear differences made me fall in love with Svelte. Svelte Trivia is a rudimentary quiz app made completely using Svelte.
+I was hearing about Svelte a lot and after listening to [this](https://www.youtube.com/watch?reload=9&v=AdNJ3fydeao) talk I wanted to give it a try too. So I did and it turns out that Svelte is super amazing. I am used to programming with React a lot and some clear differences made me fall in love with Svelte. Svelte Trivia is a rudimentary quiz app made completely using Svelte.
 
 ## Get started
 
